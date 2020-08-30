@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
 
         ArrayList<String> argsList = new ArrayList<>();
         argsList.addAll(Arrays.asList(args));
@@ -25,8 +25,25 @@ public class Main {
 
 
             }
-
         }
+
+            if(new File(System.getProperty("user.dir")+"/libs.zip").exists()) {
+                if(new File(System.getProperty("user.dir")+"/libs.zip").canWrite()) {
+                    try {
+                        deleteDirectory(new File(System.getProperty("user.dir") + "/libs"));
+                    }catch (Exception e) {
+
+                    }
+                try {
+                    UnZipUtils.unzip(System.getProperty("user.dir") + "/libs.zip", System.getProperty("user.dir") + "/libs");
+                }catch (IOException e) {
+                    e.printStackTrace();
+                }
+                }
+            }
+
+
+
 
         }
 
@@ -63,4 +80,15 @@ String java = "";
 
         }
     }
+
+    static boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
+    }
+
 }
